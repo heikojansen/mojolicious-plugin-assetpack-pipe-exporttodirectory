@@ -1,0 +1,4 @@
+\.SKIP$
+dist.ini
+~$
+.gitignore
