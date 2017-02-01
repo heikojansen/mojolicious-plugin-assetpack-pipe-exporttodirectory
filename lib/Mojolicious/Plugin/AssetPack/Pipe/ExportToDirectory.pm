@@ -2,7 +2,7 @@
 package Mojolicious::Plugin::AssetPack::Pipe::ExportToDirectory;
 
 use Mojo::Base 'Mojolicious::Plugin::AssetPack::Pipe';
-use Mojo::Util 'spurt';
+use Mojo::File;
 
 use File::Basename 'dirname';
 use File::Path 'make_path';
@@ -24,17 +24,19 @@ sub process {
 		sub {
 			my $asset = shift;
 
-			my $path;
+			my ( $file, $path ) = ( '',  '' );
 			if ( $self->use_checksum_subdir ) {
-				my $file = sprintf( "%s.%s", $asset->name, $asset->format );
-				$path = File::Spec->catfile( $dir, $asset->checksum, $file );
+				$file = sprintf( "%s.%s", $asset->name, $asset->format );
+				$path = File::Spec->catfile( $dir, $asset->checksum );
 			}
 			else {
-				my $file = sprintf( "%s-%s.%s", $asset->name, $asset->checksum, $asset->format );
-				$path = File::Spec->catfile( $dir, $file );
+				$file = sprintf( "%s-%s.%s", $asset->name, $asset->checksum, $asset->format );
+				$path = $dir;
 			}
-			make_path dirname($path) unless -d dirname($path);
-			spurt $asset->content => $path;
+
+			my $p = Mojo::File->new($path);
+			$p->make_path;
+			$p->child($file)->spurt( $asset->content );
 		}
 	);
 } ## end sub process
