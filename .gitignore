@@ -1,4 +1,6 @@
 *~
 .*.swp
-Mojolicious-Plugin-AssetPack-Pipe-ExportToDirectory-*/
-Mojolicious-Plugin-AssetPack-Pipe-ExportToDirectory-*.tar.gz
+/Mojolicious-Plugin-AssetPack-Pipe-ExportToDirectory-*/
+/Mojolicious-Plugin-AssetPack-Pipe-ExportToDirectory-*.tar.gz
+/local
+/cpanfile.snapshot
