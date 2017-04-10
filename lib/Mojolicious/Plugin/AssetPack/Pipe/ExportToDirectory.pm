@@ -8,8 +8,11 @@ use File::Basename 'dirname';
 use File::Path 'make_path';
 use File::Spec;
 
+use PerlIO::gzip;
+
 has 'export_dir' => sub { $ENV{MOJO_ASSETPACK_EXPORT_DIRECTORY} || '' };
 has 'use_checksum_subdir' => 1;
+has 'store_gzip_variant' => 0;
 
 
 sub process {
@@ -37,6 +40,14 @@ sub process {
 			my $p = Mojo::File->new($path);
 			$p->make_path;
 			$p->child($file)->spurt( $asset->content );
+
+			if ( $self->store_gzip_variant ) {
+				$file .= '.gz';
+				my $p_gz = $p->child($file);
+				my $fh = $p_gz->open('>:gzip(gzip)');
+				print $fh $asset->content;
+				$fh->close;
+			}
 		}
 	);
 } ## end sub process
