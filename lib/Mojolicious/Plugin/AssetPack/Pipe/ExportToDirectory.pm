@@ -110,6 +110,19 @@ the assets will be exported as
 This way, you can have a better overview of the exported files and their
 versions.
 
+=head2 store_gzip_variant
+
+  $bool = $self->store_gzip_variant;
+  $self = $self->store_gzip_variant(1);
+
+Defaults to C<false>. If set to a true value, a second export file will be
+generated for every asset with the same name as the default one plus the 
+extension '.gz'. It will contain a gzipped version of the asset.
+
+This is intended to be used with, e.g., the L<ngx_http_gzip_static_module|http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html>
+of Nginx which can send pre-compressed files instead of compressing requested
+resources on the fly.
+
 =head1 METHODS
 
 =head2 process
