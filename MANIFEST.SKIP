@@ -2,3 +2,6 @@
 dist.ini
 ~$
 .gitignore
+cpanfile
+cpanfile.snapshot
+local
